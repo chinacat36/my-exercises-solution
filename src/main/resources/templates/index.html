@@ -5,17 +5,7 @@
     <title>Coding Events</title>
 </head>
 <body>
-
-<h1>All Events</h1>
-
+<h1>Coding Events</h1>
 <nav th:replace="fragments :: navigation"></nav>
-
-<p th:unless="${events} and ${events.size()}">No Events</p>
-<ul>
-    <th:block th:each="event : ${events}">
-        <li th:text="${event}"></li>
-    </th:block>
-</ul>
-
 </body>
 </html>    
