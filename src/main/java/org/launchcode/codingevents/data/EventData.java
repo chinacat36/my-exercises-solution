@@ -4,6 +4,7 @@ import org.launchcode.codingevents.models.Event;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EventData {
@@ -21,4 +22,11 @@ public class EventData {
 
     public static void remove(int id){
         events.remove(id); }
+
+        public static int getNumOfAttendees(Event event){
+        int attending = 0;
+      if(event.getRegistration()==true){
+            attending++;
+        }return attending;
+        }
 }
