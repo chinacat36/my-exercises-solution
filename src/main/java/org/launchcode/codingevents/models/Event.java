@@ -1,15 +1,20 @@
 package org.launchcode.codingevents.models;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
-
+@Entity
 public class Event {
 
+    @Id
+    @GeneratedValue
     private int id;
-    private static int nextId = 1;
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Invalid email. Try again.")
@@ -35,16 +40,14 @@ public class Event {
     //@Size(min = 0)
     private int attendees;
 
-    public Event() {
-        this.id = nextId;
-        nextId++;
-    }
+    private EventType type;
+
+    public Event() {}
 
     public Event(String name, String description,
                  String contactEmail, String date,
                  String location, Boolean registration,
-                 int attendees) {
-        this();
+                 int attendees, EventType type) {
         this.name = name;
         this.description = description;
         this.contactEmail = contactEmail;
@@ -52,6 +55,7 @@ public class Event {
         this.location = location;
         this.registration = registration;
         this.attendees = attendees;
+        this.type = type;
     }
 
     public String getName() {
@@ -108,6 +112,14 @@ public class Event {
 
     public void setAttendees(int attendees) {
         this.attendees = attendees;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
     }
 
     public int getId() {
