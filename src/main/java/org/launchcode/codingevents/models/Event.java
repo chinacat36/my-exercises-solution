@@ -1,24 +1,27 @@
 package org.launchcode.codingevents.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.*;
+import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Event extends AbstractEntity{
 
-    @NotBlank(message = "Email is required.")
-    @Email(message = "Invalid email. Try again.")
-    private String contactEmail;
 
     @NotBlank(message = "Name is required.")
     @Size(min = 3, max = 50, message = "Name must be between 3-50 characters.")
     private String name;
 
-    @Size(max = 500, message = "Description too long.")
-    private String description;
+    @OneToOne(cascade = CascadeType.ALL)
+    @Valid
+    @NotNull
+    private EventDetails eventDetails;
 
-    //@FutureOrPresent
     @NotBlank(message = "Date is required.")
     private String date;
 
@@ -32,15 +35,15 @@ public class Event extends AbstractEntity{
     @NotNull(message = "Category is required.")
     private EventCategory eventCategory;
 
+    @ManyToMany
+    private final List<Tag> tags = new ArrayList<>();
+
     public Event() {}
 
-    public Event(String name, String description,
-                 String contactEmail, String date,
+    public Event(String name, String date,
                  String location, Boolean registration,
                  EventCategory eventCategory) {
         this.name = name;
-        this.description = description;
-        this.contactEmail = contactEmail;
         this.date = date;
         this.location = location;
         this.registration = registration;
@@ -55,20 +58,12 @@ public class Event extends AbstractEntity{
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public EventDetails getEventDetails() {
+        return eventDetails;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
+    public void setEventDetails(EventDetails eventDetails) {
+        this.eventDetails = eventDetails;
     }
 
     public String getDate() {
@@ -101,6 +96,14 @@ public class Event extends AbstractEntity{
 
     public void setEventCategory(EventCategory eventCategory) {
         this.eventCategory = eventCategory;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
     }
 
     @Override

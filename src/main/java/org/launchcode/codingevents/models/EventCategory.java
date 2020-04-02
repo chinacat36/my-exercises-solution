@@ -2,6 +2,7 @@ package org.launchcode.codingevents.models;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ public class EventCategory extends AbstractEntity{
     @NotBlank(message="Name is required.")
     @Size(min=1, max=50, message="Must be 1-50 characters.")
     private String name;
+
+    @OneToOne(mappedBy = "eventDetails")
+    private Event event;
 
     public EventCategory(){}
     public EventCategory(String name) {
